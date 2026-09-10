@@ -20,8 +20,9 @@ class Character:
         archetypes.Archetype.SUPPORT: {'health': +10, 'damage': +10}
     }
     
-    def __init__(self, name, affinity: elements.Element, path: archetypes.Archetype, level=1, exp=0, health = None, damage = None):
+    def __init__(self, name, gender, affinity: elements.Element, path: archetypes.Archetype, level=1, exp=0, health = None, damage = None):
         self.name = name
+        self.gender = gender
         if not isinstance(affinity, elements.Element):
             raise ValueError("...")
         else:
@@ -40,4 +41,26 @@ class Character:
             self.damage = self.PATH[path]['damage']
         else:
             self.damage = damage
-        
+    
+    def __str__(self):
+        return f"""
+Name: {self.name}
+Class: {self.path.name}
+Gender: {self.gender}
+Damage: {self.damage}
+Health: {self.health}
+Affinity: {self.affinity.name}
+Level: {self.level}
+Exp: {self.exp}
+"""
+    
+    def level_up(self):
+        while self.level -1 < len(self.EXP_THRESHOLDS) and self.exp >= self.EXP_THRESHOLDS[self.level - 1]:
+            growth = self.GROWTH[self.path]
+            self.health += growth["health"]
+            self.damage += growth["damage"]
+            self.level += 1
+    
+    def add_exp(self,amount):
+        self.exp += amount
+        self.level_up()
