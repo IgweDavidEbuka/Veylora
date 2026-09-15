@@ -1,5 +1,5 @@
 from enum import Enum
-import elements
+from game import elements
 import random
 
 class ZoneType(Enum):
@@ -41,14 +41,12 @@ class Zone:
         }
     }
         
-    def __init__(self, name, zone_type, tier= None):
+    def __init__(self, name, zone_type: ZoneType, tier= None):
         self.name = name
         self.zone_type = zone_type
         self.tier = tier
     
-    def camp_randomizer(self, element):
-        return random.choice(self.CAMP_POOL[element][random.randint(1, 3)])
-
-
-se = Zone('', '')
-print(se.camp_randomizer(elements.Element.CHAOS))
+    @staticmethod
+    def camp_randomizer(element, tier):
+        name = random.choice(Zone.CAMP_POOL[element][tier])
+        return Zone(name, ZoneType.CAMP, tier)
