@@ -1,6 +1,7 @@
 # The characters available in the selection pool
 from game import elements
 from game import archetypes
+from game import regions
 
 
 class Character:
@@ -20,9 +21,13 @@ class Character:
         archetypes.Archetype.SUPPORT: {'health': +10, 'damage': +10}
     }
     
-    def __init__(self, name, gender, affinity: elements.Element, path: archetypes.Archetype, level=1, exp=0, health = None, damage = None):
+    def __init__(self, name, gender, origin:regions.Region ,  affinity: elements.Element, path: archetypes.Archetype, level=1, exp=0, health = None, damage = None):
         self.name = name
         self.gender = gender
+        if not isinstance(origin, regions.Region):
+            raise ValueError("...")
+        else:
+            self.origin = origin
         if not isinstance(affinity, elements.Element):
             raise ValueError("...")
         else:
@@ -46,6 +51,7 @@ class Character:
         return f"""
 Name: {self.name}
 Class: {self.path.name}
+Origin: {self.origin.name}
 Gender: {self.gender}
 Damage: {self.damage}
 Health: {self.health}

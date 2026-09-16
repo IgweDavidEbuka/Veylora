@@ -15,4 +15,4 @@ class Region:
         if not isinstance(element, elements.Element):
             raise ValueError("...")
         else:
-            self.element = element[element]
+            self.element = element
